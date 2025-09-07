@@ -1,0 +1,21 @@
+{
+  "name": "gbcam-tools",
+  "version": "1.0.0",
+  "description": "A collection of tools and assets for the Game Boy Camera, like color palettes.",
+  "type": "module",
+  "main": "main.js",
+  "exports": {
+    ".": "./main.js"
+  },
+  "keywords": [
+    "gameboy",
+    "gameboy camera",
+    "gbcam",
+    "palettes"
+  ],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "vitest": "^3.2.4"
+  }
+}
