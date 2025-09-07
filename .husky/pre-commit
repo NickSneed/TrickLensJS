@@ -1,6 +1,6 @@
 #!/bin/sh
 . "$(dirname "$0")/_/husky.sh"
 
-if git diff --cached --name-only | grep -q 'src/assets/palettes.js'; then
+if git diff --cached --name-only | grep -q 'assets/palettes.js'; then
   npm run build
 fi
