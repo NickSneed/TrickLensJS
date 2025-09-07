@@ -8,7 +8,8 @@
         ".": "./main.js"
     },
     "scripts": {
-        "build": "node tools/createpalettegrid.js"
+        "build": "node tools/createpalettegrid.js",
+        "prepare": "husky install"
     },
     "keywords": [
         "gameboy",
@@ -19,6 +20,7 @@
     "author": "",
     "license": "ISC",
     "devDependencies": {
+        "husky": "^8.0.0",
         "vitest": "^3.2.4"
     },
     "dependencies": {
