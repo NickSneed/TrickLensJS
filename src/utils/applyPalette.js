@@ -1,8 +1,5 @@
-import palettes from '../assets/palettes.js';
-
-const applyPalette = (photoData, paletteId) => {
+const applyPalette = (photoData, palette) => {
     const pixels = new Uint8ClampedArray(photoData.length * 4);
-    const palette = palettes[paletteId];
 
     for (let i = 0; i < photoData.length; i++) {
         const val = photoData[i];
@@ -13,8 +10,6 @@ const applyPalette = (photoData, paletteId) => {
         pixels[pixelIndex + 2] = color.b;
         pixels[pixelIndex + 3] = 255; // Alpha
     }
-
-    console.log(pixels);
 
     return pixels;
 };
