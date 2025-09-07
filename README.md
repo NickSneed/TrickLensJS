@@ -76,20 +76,6 @@ The returned object has the following structure:
 }
 ```
 
-### Helper Functions
-
-For more granular control, the following helper functions are also exported and can be imported directly:
-
--   `getImgData(saveData, photoIndex)`: Extracts pixel data for a single photo.
--   `getIsDeleted(saveData, photoIndex)`: Checks if a photo is marked as deleted.
--   `getComment(saveData, photoIndex)`: Extracts the comment for a specific photo.
--   `getUsername(saveData)`: Extracts the owner's username.
--   `getGender(saveData)`: Extracts the owner's gender.
--   `getFrameId(saveData, photoIndex)`: Extracts the frame ID for a specific photo.
--   `gbcCharToAscii(code)`: Converts a Game Boy Camera character code to its ASCII equivalent.
-
----
-
 _Save parsing logic was based on gbcam2png and information from Raphael-Boichot's research._
 
 _Game Boy™, Game Boy Camera™, Game Boy Color™, and Super Game Boy™ are registered trademarks of Nintendo._
