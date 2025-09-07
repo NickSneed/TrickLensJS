@@ -1,6 +1,6 @@
-# GBCamTools
+# GBCamJS
 
-A set of tools for working with Game Boy Camera™ .sav files
+A collection of Javascript tools and assets for the Game Boy Camera™.
 
 Save parsing was based on gbcam2png:
 https://github.com/raphnet/gbcam2png
