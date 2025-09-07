@@ -8,7 +8,7 @@ A collection of JavaScript tools and assets for the Game Boy Camera™.
 npm install gbcam-js
 ```
 
-## Usage
+## Save parsing
 
 The primary function of this library is to parse raw Game Boy Camera save files (`.sav`).
 
@@ -80,3 +80,7 @@ The returned object has the following structure:
 _Save parsing logic was based on gbcam2png and information from Raphael-Boichot's research._
 
 _Game Boy™, Game Boy Camera™, Game Boy Color™, and Super Game Boy™ are registered trademarks of Nintendo._
+
+### Palettes
+
+![Description of image](src/assets/palettes.png)
