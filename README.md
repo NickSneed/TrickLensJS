@@ -83,4 +83,6 @@ _Game Boy™, Game Boy Camera™, Game Boy Color™, and Super Game Boy™ are r
 
 ### Palettes
 
+Palettes can be apply to the image data using a canvas
+
 ![Description of image](src/assets/palettes.png)
