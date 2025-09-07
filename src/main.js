@@ -1,5 +1,8 @@
-// Palettes
-export { default as palettes } from './assets/palettes.js';
+/**
+ * @file The main entry point for the gbc-js library.
+ * This file aggregates and exports the primary functionalities of the library,
+ * making them available for other modules to import.
+ */
 
-// Save Parser
-export { getData } from './utils/saveparser.js';
+export { default as palettes } from './assets/palettes.js';
+export { default as parseSave } from './utils/parsesave.js';

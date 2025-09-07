@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { getData } from './saveparser.js';
+import parseSave from './parsesave.js';
 
 // Mock the character map from an external asset file.
 vi.mock('../assets/character.js', () => {
@@ -16,7 +16,7 @@ vi.mock('../assets/character.js', () => {
     return { default: chars };
 });
 
-describe('saveparser', () => {
+describe('parsesave', () => {
     let saveData;
 
     beforeEach(() => {
@@ -32,33 +32,33 @@ describe('saveparser', () => {
         saveData[0x02f06] = 'S'.charCodeAt(0) - 'A'.charCodeAt(0) + 0x56;
         saveData[0x02f07] = 'T'.charCodeAt(0) - 'A'.charCodeAt(0) + 0x56;
 
-        const result = getData(saveData);
+        const result = parseSave(saveData);
         expect(result.username).toBe('TEST');
     });
 
     it('should extract gender as male', () => {
         saveData[0x02f0d] = 0x01;
-        const result = getData(saveData);
+        const result = parseSave(saveData);
         expect(result.gender).toBe('male');
     });
 
     it('should extract gender as female', () => {
         saveData[0x02f0d] = 0x00;
-        const result = getData(saveData);
+        const result = parseSave(saveData);
         expect(result.gender).toBe('female');
     });
 
     it('should correctly identify a non-deleted photo', () => {
         const photoIndex = 5;
         saveData[0x011d7 + photoIndex] = 0x00; // Not deleted
-        const result = getData(saveData);
+        const result = parseSave(saveData);
         expect(result.images[photoIndex].isDeleted).toBe(false);
     });
 
     it('should correctly identify a deleted photo', () => {
         const photoIndex = 10;
         saveData[0x011d7 + photoIndex] = 255; // Deleted
-        const result = getData(saveData);
+        const result = parseSave(saveData);
         expect(result.images[photoIndex].isDeleted).toBe(true);
     });
 
@@ -70,7 +70,7 @@ describe('saveparser', () => {
         saveData[commentOffset + 1] = 0x57; // B
         saveData[commentOffset + 2] = 0x58; // C
 
-        const result = getData(saveData);
+        const result = parseSave(saveData);
         expect(result.images[photoIndex].comment).toBe('ABC');
     });
 
@@ -79,7 +79,7 @@ describe('saveparser', () => {
         const frameIdOffset = 0x02f54 + 0x1000 * photoIndex;
         saveData[frameIdOffset] = 4; // This is 0-indexed in the save, so it corresponds to frame 5.
 
-        const result = getData(saveData);
+        const result = parseSave(saveData);
         expect(result.images[photoIndex].frameId).toBe('5');
     });
 
@@ -98,7 +98,7 @@ describe('saveparser', () => {
                 saveData[tileDataOffset + i * 2 + 1] = 0xaa;
             }
 
-            const { images } = getData(saveData);
+            const { images } = parseSave(saveData);
             const { photoData, width } = images[photoIndex];
 
             // Check the first 8x8 pixels
@@ -121,7 +121,7 @@ describe('saveparser', () => {
                 saveData[tileDataOffset + i] = 0xff;
             }
 
-            const { images } = getData(saveData);
+            const { images } = parseSave(saveData);
             const { photoData, width } = images[photoIndex];
 
             for (let y = 0; y < 8; y++) {
@@ -149,7 +149,7 @@ describe('saveparser', () => {
         const photoIndex1 = 1;
         saveData[0x011d7 + photoIndex1] = 255; // Deleted
 
-        const result = getData(saveData);
+        const result = parseSave(saveData);
 
         expect(result.username).toBe('A');
         expect(result.gender).toBe('male');

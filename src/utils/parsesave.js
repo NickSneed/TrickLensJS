@@ -143,7 +143,7 @@ const getFrameId = (saveData, photoIndex) => {
  * @param {Uint8Array} saveData The raw save data.
  * @returns {object} An object containing all of the save data
  */
-const getData = (saveData) => {
+const parseSave = (saveData) => {
     const imgs = [];
 
     for (let i = 0; i < 30; i++) {
@@ -162,4 +162,4 @@ const getData = (saveData) => {
     };
 };
 
-export { getData };
+export default parseSave;
