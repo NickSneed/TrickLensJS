@@ -20,7 +20,8 @@ import parseSave from 'gbcam-js'; // Or your path to main.js/parsesave.js
 
 async function main() {
     try {
-        // Read the raw save file data (as a Uint8Array)
+        // Read the raw save file data. In Node.js, this returns a Buffer,
+        // which is a subclass of Uint8Array.
         const saveData = await fs.readFile('./your-save-file.sav');
 
         // Parse the data
@@ -53,7 +54,7 @@ main();
 
 The main export. Parses the entire Game Boy Camera save file.
 
--   **`saveData`**: `Uint8Array` - The raw binary data from the `.sav` file.
+-   **`saveData`**: `Uint8Array | ArrayBuffer` - The raw binary data from the `.sav` file. Can be a Node.js `Buffer`, a standard `Uint8Array`, or an `ArrayBuffer`.
 -   **Returns**: `object` - An object containing the parsed save data.
 
 The returned object has the following structure:

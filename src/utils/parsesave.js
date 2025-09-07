@@ -169,6 +169,7 @@ export const getFrameId = (saveData, photoIndex) => {
  */
 const parseSave = (saveData) => {
     const images = [];
+    const array8Bit = new Uint8Array(saveData);
 
     for (let i = 0; i < CONSTANTS.NUM_PHOTOS; i++) {
         // Use a closure to capture the photo index `i`
@@ -178,13 +179,13 @@ const parseSave = (saveData) => {
         images[photoIndex] = {
             width: SIZES.IMAGE_WIDTH,
             height: SIZES.IMAGE_HEIGHT,
-            comment: getComment(saveData, photoIndex),
-            frameId: getFrameId(saveData, photoIndex),
-            isDeleted: getIsDeleted(saveData, photoIndex),
+            comment: getComment(array8Bit, photoIndex),
+            frameId: getFrameId(array8Bit, photoIndex),
+            isDeleted: getIsDeleted(array8Bit, photoIndex),
             get photoData() {
                 if (decodedPhotoData === null) {
                     // Decode image data on first access and cache it.
-                    decodedPhotoData = getImgData(saveData, photoIndex).photoData;
+                    decodedPhotoData = getImgData(array8Bit, photoIndex).photoData;
                 }
                 return decodedPhotoData;
             }
@@ -192,8 +193,8 @@ const parseSave = (saveData) => {
     }
 
     return {
-        username: getUsername(saveData),
-        gender: getGender(saveData),
+        username: getUsername(array8Bit),
+        gender: getGender(array8Bit),
         images: images
     };
 };
