@@ -93,6 +93,37 @@ const createHorizontalBarsMontage = (photos) => {
     return montageData;
 };
 
+const createBorderMontage = (photoData1, photoData2) => {
+    const montageData = [...photoData1]; // Start with the border image
+    const innerWidth = 80;
+    const innerHeight = 64;
+
+    // Calculate offsets to center the inner image
+    const offsetX = (WIDTH - innerWidth) / 2; // (128 - 80) / 2 = 24
+    const offsetY = (HEIGHT - innerHeight) / 2; // (112 - 64) / 2 = 24
+
+    // Calculate source offsets to take the center of the second photo
+    const sourceOffsetX = (WIDTH - innerWidth) / 2;
+    const sourceOffsetY = (HEIGHT - innerHeight) / 2;
+
+    for (let y = 0; y < innerHeight; y++) {
+        for (let x = 0; x < innerWidth; x++) {
+            // Destination coordinates in the final montage
+            const destX = offsetX + x;
+            const destY = offsetY + y;
+            const destIndex = destY * WIDTH + destX;
+
+            // Source coordinates from the second photo
+            const sourceX = sourceOffsetX + x;
+            const sourceY = sourceOffsetY + y;
+            const sourceIndex = sourceY * WIDTH + sourceX;
+
+            montageData[destIndex] = photoData2[sourceIndex];
+        }
+    }
+    return montageData;
+};
+
 /**
  * Creates a new 128x112 image by combining two photos.
  * The left half of the new image is taken from the first photo,
@@ -101,7 +132,7 @@ const createHorizontalBarsMontage = (photos) => {
  * @param {Array<number[]>} photos An array containing two photo data arrays.
  * Each photo data is a flat array of 14336 (128x112) pixel values (0-3).
  * @returns {number[]} A new flat array of 14336 pixel values for the combined image.
- * @param {'horizontal' | 'vertical' | 'quadrant' | 'four-quadrant' | 'horizontal-2/3' | 'horizontal-bars'} splitType The type of split for the montage.
+ * @param {'horizontal' | 'vertical' | 'quadrant' | 'four-quadrant' | 'horizontal-2/3' | 'horizontal-bars' | 'border'} splitType The type of split for the montage.
  */
 const createMontage = (photos, splitType = 'horizontal') => {
     if (!photos) {
@@ -121,6 +152,7 @@ const createMontage = (photos, splitType = 'horizontal') => {
             return createHorizontalBarsMontage(photos);
         case 'vertical':
         case 'quadrant':
+        case 'border':
         case 'horizontal-2/3':
         case 'horizontal':
         default: {
@@ -130,6 +162,7 @@ const createMontage = (photos, splitType = 'horizontal') => {
             const [photoData1, photoData2] = photos;
             if (splitType === 'vertical') return createVerticalMontage(photoData1, photoData2);
             if (splitType === 'quadrant') return createQuadrantMontage(photoData1, photoData2);
+            if (splitType === 'border') return createBorderMontage(photoData1, photoData2);
             if (splitType === 'horizontal-2/3') {
                 return createHorizontalTwoThirdsMontage(photoData1, photoData2);
             }
