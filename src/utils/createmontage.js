@@ -89,15 +89,15 @@ const createHorizontalBarsMontage = (photos) => {
     const middleEndPixel = (32 + middleHeight) * WIDTH;
     const bottomStartPixel = (HEIGHT - topHeight) * WIDTH;
 
-    montageData.set(photoData1.subarray(0, topPixels));
-    montageData.set(photoData2.subarray(middleStartPixel, middleEndPixel), topPixels);
+    montageData.set(photoData2.subarray(0, topPixels));
+    montageData.set(photoData1.subarray(middleStartPixel, middleEndPixel), topPixels);
     montageData.set(photoData3.subarray(bottomStartPixel), topPixels + (middleEndPixel - middleStartPixel));
 
     return montageData;
 };
 
 const createBorderMontage = (photoData1, photoData2) => {
-    const montageData = new Uint8Array(photoData1); // Start with the border image
+    const montageData = new Uint8Array(photoData2); // Start with the border image
     const innerWidth = 80;
     const innerHeight = 64;
 
@@ -109,7 +109,7 @@ const createBorderMontage = (photoData1, photoData2) => {
         const sourceRowStartIndex = (offsetY + y) * WIDTH + offsetX;
         const sourceRowEndIndex = sourceRowStartIndex + innerWidth;
         const destRowStartIndex = (offsetY + y) * WIDTH + offsetX;
-        montageData.set(photoData2.subarray(sourceRowStartIndex, sourceRowEndIndex), destRowStartIndex);
+        montageData.set(photoData1.subarray(sourceRowStartIndex, sourceRowEndIndex), destRowStartIndex);
     }
     return montageData;
 };
