@@ -104,6 +104,9 @@ export const getIsDeleted = (saveData, photoIndex) => {
  * @returns {string} The corresponding ASCII character, or an empty string if not found.
  */
 export const gbcCharToAscii = (code) => {
+    if (!code) {
+        return;
+    }
     if (code >= CONSTANTS.GBC_CHAR_CODE_START && code <= CONSTANTS.GBC_CHAR_CODE_END) {
         return chars[code - CONSTANTS.GBC_CHAR_CODE_START];
     }
