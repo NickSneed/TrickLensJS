@@ -122,7 +122,7 @@ export const gbcCharToAscii = (code) => {
 const convertSection = (saveData, start, end, offset = 0) => {
     let str = '';
     for (let addr = start + offset; addr <= end + offset; addr++) {
-        if (saveData[addr]) {
+        if (saveData[addr] || saveData[addr] === '') {
             str += gbcCharToAscii(saveData[addr]);
         }
     }
