@@ -107,7 +107,7 @@ export const gbcCharToAscii = (code) => {
     if (code >= CONSTANTS.GBC_CHAR_CODE_START && code <= CONSTANTS.GBC_CHAR_CODE_END) {
         return chars[code - CONSTANTS.GBC_CHAR_CODE_START];
     }
-    return '';
+    return ' ';
 };
 
 /**
