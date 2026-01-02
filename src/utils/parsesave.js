@@ -104,12 +104,10 @@ export const getIsDeleted = (saveData, photoIndex) => {
  * @returns {string} The corresponding ASCII character, or an empty string if not found.
  */
 export const gbcCharToAscii = (code) => {
-    if (!code) {
-        return;
-    }
     if (code >= CONSTANTS.GBC_CHAR_CODE_START && code <= CONSTANTS.GBC_CHAR_CODE_END) {
         return chars[code - CONSTANTS.GBC_CHAR_CODE_START];
     }
+    console.log(code);
     return ' ';
 };
 
@@ -137,7 +135,7 @@ const convertSection = (saveData, start, end, offset = 0) => {
 /**
  * Extracts the comment for a specific photo from the save file.
  * @param {Uint8Array} saveData The raw save data.
- * @param {number} photoIndex The index of the photo.
+ * @param {number} photoIndex The index of the photo.convertSection
  * @returns {string} The photo's comment.
  */
 export const getComment = (saveData, photoIndex) => {
