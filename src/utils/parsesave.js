@@ -98,6 +98,19 @@ export const getIsDeleted = (saveData, photoIndex) => {
 };
 
 /**
+ * Checks if the photo at the given index is marked as deleted in the save file.
+ * @param {Uint8Array} saveData The raw save data.
+ * @param {number} photoIndex The index of the photo to check.
+ * @returns {number} The index of the photo
+ */
+export const getphotoIndex = (saveData, photoIndex) => {
+    if (saveData[OFFSETS.PHOTO_DELETED_FLAGS + photoIndex] === CONSTANTS.DELETED_FLAG_VALUE) {
+        return 0;
+    }
+    return saveData[OFFSETS.PHOTO_DELETED_FLAGS + photoIndex];
+};
+
+/**
  * Converts a Game Boy Camera character code to its corresponding ASCII character.
  * It uses a lookup table for the conversion.
  * @param {number} code The character code from the save file.
@@ -194,6 +207,7 @@ const parseSave = (saveData) => {
             height: SIZES.IMAGE_HEIGHT,
             comment: getComment(array8Bit, photoIndex),
             frameId: getFrameId(array8Bit, photoIndex),
+            photoIndex: getPhotoIndex(array8Bit, photoIndex),
             isDeleted: getIsDeleted(array8Bit, photoIndex),
             get photoData() {
                 if (decodedPhotoData === null) {
