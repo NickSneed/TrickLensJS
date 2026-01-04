@@ -8,5 +8,6 @@
 /dist
 
 # misc
-.DS_Store
-.env*
+*.DS_Store
+*.env
+*.sav
