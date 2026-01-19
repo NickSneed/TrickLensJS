@@ -51,7 +51,7 @@ palettes.forEach(([name, colors], i) => {
     const y0 = row * (swatchSize + paletteGap);
 
     // Draw each color swatch
-    colors.forEach((color, j) => {
+    colors.colors.forEach((color, j) => {
         ctx.fillStyle = `rgb(${color.r},${color.g},${color.b})`;
         ctx.fillRect(x0 + j * (swatchSize + swatchGap), y0, swatchSize, swatchSize);
     });
