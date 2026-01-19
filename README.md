@@ -55,7 +55,7 @@ https://github.com/Raphael-Boichot/Inject-pictures-in-your-Game-Boy-Camera-saves
 Converts raw pixel data into an RGBA array using a specific palette.
 
 - **`photoData`**: `number[]` - The array of palette indices (0-3) from an image.
-- **`palette`**: `object[]` - An array of 4 color objects (e.g., `[{r: 0, g: 0, b: 0}, ...]`).
+- **`palette`**: `object` - A palette object containing a `colors` array of 4 RGB objects (e.g., `{ name: 'Super Game Boy 1A', colors: [{ r: 255, g: 232, b: 207 }, ...] }`).
 - **`paletteOrder`**: `string` (optional) - Reorders the palette. Options: `'invert'`, `'pa'`, `'pb'`, `'pc'`, `'pd'`.
 - **Returns**: `Uint8ClampedArray` - The RGBA pixel data (4 bytes per pixel).
 
@@ -99,7 +99,7 @@ The `frameId` property in the image object corresponds to the index of the frame
 
 ## Related Tools
 
-- TrickLensStudio
-- TrickLensCLI
+- TrickLensStudio - https://github.com/NickSneed/TrickLensStudio
+- TrickLensCLI - https://github.com/NickSneed/TrickLensCLI
 
 _Game Boy™, Game Boy Camera™, Game Boy Color™, and Super Game Boy™ are registered trademarks of Nintendo._
