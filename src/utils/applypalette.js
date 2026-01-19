@@ -25,7 +25,7 @@ const reorderPalette = (palette, effect) => {
     }
 
     for (let i = 0; i < 4; i++) {
-        orderedMainPalette[i] = palette[palOrder[i]];
+        orderedMainPalette[i] = palette.colors[palOrder[i]];
     }
 
     return orderedMainPalette;

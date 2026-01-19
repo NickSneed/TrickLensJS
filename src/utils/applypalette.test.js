@@ -5,18 +5,24 @@ import palettes from '../assets/palettes.js';
 // Mock the palettes from the external asset file.
 vi.mock('../assets/palettes.js', () => ({
     default: {
-        'test-palette': [
-            { r: 0, g: 0, b: 0 }, // index 0 -> black
-            { r: 85, g: 85, b: 85 }, // index 1 -> dark grey
-            { r: 170, g: 170, b: 170 }, // index 2 -> light grey
-            { r: 255, g: 255, b: 255 } // index 3 -> white
-        ],
-        'another-palette': [
-            { r: 255, g: 0, b: 0 }, // index 0 -> red
-            { r: 0, g: 255, b: 0 }, // index 1 -> green
-            { r: 0, g: 0, b: 255 }, // index 2 -> blue
-            { r: 255, g: 255, b: 0 } // index 3 -> yellow
-        ]
+        'test-palette': {
+            name: 'Test Palette',
+            colors: [
+                { r: 0, g: 0, b: 0 }, // index 0 -> black
+                { r: 85, g: 85, b: 85 }, // index 1 -> dark grey
+                { r: 170, g: 170, b: 170 }, // index 2 -> light grey
+                { r: 255, g: 255, b: 255 } // index 3 -> white
+            ]
+        },
+        'another-palette': {
+            name: 'Another Palette',
+            colors: [
+                { r: 255, g: 0, b: 0 }, // index 0 -> red
+                { r: 0, g: 255, b: 0 }, // index 1 -> green
+                { r: 0, g: 0, b: 255 }, // index 2 -> blue
+                { r: 255, g: 255, b: 0 } // index 3 -> yellow
+            ]
+        }
     }
 }));
 
@@ -90,13 +96,13 @@ describe('applyPalette', () => {
             const result = applyPalette(photoData, palette, 'invert');
 
             const expectedPixels = new Uint8ClampedArray([
-                // 0 -> white
+                // 0
                 255, 255, 255, 255,
-                // 1 -> light grey
+                // 1
                 170, 170, 170, 255,
-                // 2 -> dark grey
+                // 2
                 85, 85, 85, 255,
-                // 3 -> black
+                // 3
                 0, 0, 0, 255
             ]);
 
@@ -114,13 +120,13 @@ describe('applyPalette', () => {
             const result = applyPalette(photoData, palette, 'i');
 
             const expectedPixels = new Uint8ClampedArray([
-                // 0 -> white
+                // 0
                 255, 255, 255, 255,
-                // 1 -> light grey
+                // 1
                 170, 170, 170, 255,
-                // 2 -> dark grey
+                // 2
                 85, 85, 85, 255,
-                // 3 -> black
+                // 3
                 0, 0, 0, 255
             ]);
 
@@ -138,14 +144,14 @@ describe('applyPalette', () => {
             const result = applyPalette(photoData, palette, 'pa');
 
             const expectedPixels = new Uint8ClampedArray([
-                // 0 -> l-grey
-                170, 170, 170, 255,
-                // 1 -> white
-                255, 255, 255, 255,
-                // 2 -> black
+                // 0
                 0, 0, 0, 255,
-                // 3 -> d-grey
-                85, 85, 85, 255
+                // 1
+                170, 170, 170, 255,
+                // 2
+                85, 85, 85, 255,
+                // 3
+                255, 255, 255, 255
             ]);
 
             expect(result).toEqual(expectedPixels);
@@ -161,13 +167,13 @@ describe('applyPalette', () => {
             const result = applyPalette(photoData, palette, 'pb');
 
             const expectedPixels = new Uint8ClampedArray([
-                // 0 -> white
+                // 0
                 255, 255, 255, 255,
-                // 1 -> d-grey
+                // 1
                 85, 85, 85, 255,
-                // 2 -> l-grey
+                // 2
                 170, 170, 170, 255,
-                // 3 -> black
+                // 3
                 0, 0, 0, 255
             ]);
 
@@ -184,14 +190,14 @@ describe('applyPalette', () => {
             const result = applyPalette(photoData, palette, 'pc');
 
             const expectedPixels = new Uint8ClampedArray([
-                // 0 -> d-grey
+                // 0
                 85, 85, 85, 255,
-                // 1 -> black
-                0, 0, 0, 255,
-                // 2 -> white
+                // 1
+                170, 170, 170, 255,
+                // 2
                 255, 255, 255, 255,
-                // 3 -> l-grey
-                170, 170, 170, 255
+                // 3
+                0, 0, 0, 255
             ]);
 
             expect(result).toEqual(expectedPixels);
@@ -207,14 +213,14 @@ describe('applyPalette', () => {
             const result = applyPalette(photoData, palette, 'pd');
 
             const expectedPixels = new Uint8ClampedArray([
-                // 0 -> black
+                // 0
+                255, 255, 255, 255,
+                // 1
                 0, 0, 0, 255,
-                // 1 -> l-grey
-                170, 170, 170, 255,
-                // 2 -> d-grey
+                // 2
                 85, 85, 85, 255,
-                // 3 -> white
-                255, 255, 255, 255
+                // 3
+                170, 170, 170, 255
             ]);
 
             expect(result).toEqual(expectedPixels);
