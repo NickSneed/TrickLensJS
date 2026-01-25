@@ -640,6 +640,15 @@ const palettes = {
             { r: 168, g: 135, b: 222 },
             { r: 44, g: 71, b: 21 }
         ]
+    },
+    b11: {
+        name: 'Super Game Boy 2H with pure white',
+        colors: [
+            { r: 255, g: 255, b: 255 },
+            { r: 191, g: 184, b: 191 },
+            { r: 112, g: 112, b: 112 },
+            { r: 0, g: 0, b: 0 }
+        ]
     }
 };
 
