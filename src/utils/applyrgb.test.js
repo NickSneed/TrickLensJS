@@ -53,4 +53,23 @@ describe('applyRGB', () => {
         const result = applyRGB(dummyData, dummyData, dummyData, width, height);
         expect(result.length).toBe(width * height * 4);
     });
+
+    it('should apply contrast correctly', () => {
+        const rData = [1]; // 170
+        const gData = [2]; // 85
+        const bData = [1]; // 170
+        const width = 1;
+        const height = 1;
+        const factor = 0;
+        const contrast = 0.5; // Increase contrast by 1.5x
+
+        const result = applyRGB(rData, gData, bData, width, height, factor, contrast);
+
+        // 170 -> (170-128)*1.5 + 128 = 191
+        // 85 -> (85-128)*1.5 + 128 = 63.5 -> 64 (Uint8ClampedArray rounds half to even)
+        expect(result[0]).toBe(191);
+        expect(result[1]).toBe(64);
+        expect(result[2]).toBe(191);
+        expect(result[3]).toBe(255);
+    });
 });

@@ -1,6 +1,18 @@
-const applyRGB = (rData, gData, bData, width, height, factor = 0) => {
+const applyRGB = (rData, gData, bData, width, height, brightness = 0, contrast = 0) => {
     const pixels = new Uint8ClampedArray(width * height * 4);
-    const intensity = [255, 170 + (255 - 170) * factor, 85 + (255 - 85) * factor, 255 * factor];
+    let intensity = [255, 170, 85, 0];
+
+    // Apply brightness (factor)
+    intensity = intensity.map((v) => v + (255 - v) * brightness);
+
+    // Apply contrast
+    if (contrast !== 0) {
+        const contrastFactor = 1 + Number(contrast);
+        intensity = intensity.map((v) => (v - 128) * contrastFactor + 128);
+    }
+
+    // Clamp values
+    intensity = intensity.map((v) => Math.max(0, Math.min(255, v)));
 
     for (let i = 0; i < width * height; i++) {
         pixels[i * 4] = intensity[rData[i]]; // red
