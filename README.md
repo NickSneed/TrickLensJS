@@ -73,6 +73,17 @@ Applies a visual effect to the raw pixel data.
     - `'tile'`
 - **Returns**: `Uint8Array` - The modified pixel data.
 
+### `applyRGB(rData, gData, bData, width, height)`
+
+Combines three separate photo data arrays into a single RGB image.
+
+- **`rData`**: `number[]` - The array of palette indices for the red channel.
+- **`gData`**: `number[]` - The array of palette indices for the green channel.
+- **`bData`**: `number[]` - The array of palette indices for the blue channel.
+- **`width`**: `number` - The width of the image.
+- **`height`**: `number` - The height of the image.
+- **Returns**: `Uint8ClampedArray` - The RGBA pixel data.
+
 ### `createMontage(photos, montageType)`
 
 Combines multiple photos into a single 128x112 image.
