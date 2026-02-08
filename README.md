@@ -113,4 +113,9 @@ The `frameId` property in the image object corresponds to the index of the frame
 - TrickLensStudio - https://github.com/NickSneed/TrickLensStudio
 - TrickLensCLI - https://github.com/NickSneed/TrickLensCLI
 
+## To Do
+
+- Add option to rotate images
+- Add saturation option to appleRGB
+
 _Game Boy™, Game Boy Camera™, Game Boy Color™, and Super Game Boy™ are registered trademarks of Nintendo._
