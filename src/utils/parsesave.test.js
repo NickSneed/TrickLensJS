@@ -54,8 +54,8 @@ describe('parsesave', () => {
         saveData[0x2000 + 0x1000 * photoIndex] = 1;
         saveData[0x011d7 + photoIndex] = 0x00; // Not deleted
         const result = parseSave(saveData);
-        // After filtering, this will be the first (and only) image
-        expect(result.images[0].isDeleted).toBe(false);
+        // After filtering, this will be the first (and only) photo
+        expect(result.photos[0].isDeleted).toBe(false);
     });
 
     it('should correctly identify a deleted photo', () => {
@@ -63,7 +63,7 @@ describe('parsesave', () => {
         saveData[0x2000 + 0x1000 * photoIndex] = 1;
         saveData[0x011d7 + photoIndex] = 255; // Deleted
         const result = parseSave(saveData);
-        expect(result.images[0].isDeleted).toBe(true);
+        expect(result.photos[0].isDeleted).toBe(true);
     });
 
     it('should extract a photo comment', () => {
@@ -76,7 +76,7 @@ describe('parsesave', () => {
         saveData[commentOffset + 2] = 0x58; // C
 
         const result = parseSave(saveData);
-        expect(result.images[0].comment).toBe('ABC');
+        expect(result.photos[0].comment).toBe('ABC');
     });
 
     it('should extract the frame ID for a photo', () => {
@@ -86,7 +86,7 @@ describe('parsesave', () => {
         saveData[frameIdOffset] = 4; // This is 0-indexed in the save, so it corresponds to frame 5.
 
         const result = parseSave(saveData);
-        expect(result.images[0].frameId).toBe('5');
+        expect(result.photos[0].frameId).toBe('5');
     });
 
     describe('getImgData', () => {
@@ -104,15 +104,15 @@ describe('parsesave', () => {
                 saveData[tileDataOffset + i * 2 + 1] = 0xaa;
             }
 
-            const { images } = parseSave(saveData);
-            const { photoData, width } = images[photoIndex];
+            const { photos } = parseSave(saveData);
+            const { pixels, width } = photos[photoIndex];
 
             // Check the first 8x8 pixels
             for (let y = 0; y < 8; y++) {
                 for (let x = 0; x < 8; x++) {
                     const pixelIndex = y * width + x;
                     const expectedValue = x % 2 === 0 ? 2 : 1;
-                    expect(photoData[pixelIndex]).toBe(expectedValue);
+                    expect(pixels[pixelIndex]).toBe(expectedValue);
                 }
             }
         });
@@ -140,15 +140,15 @@ describe('parsesave', () => {
 
         expect(result.username).toBe('A');
         expect(result.gender).toBe('male');
-        expect(result.images).toHaveLength(2);
+        expect(result.photos).toHaveLength(2);
 
         // Check photo 0
-        expect(result.images[0].isDeleted).toBe(false);
-        expect(result.images[0].frameId).toBe('1');
-        expect(result.images[0].comment).toBe('A');
-        expect(result.images[0].width).toBe(128);
-        expect(result.images[0].height).toBe(112);
-        expect(result.images[0].photoData).toBeInstanceOf(Uint8Array);
-        expect(result.images[0].photoData.length).toBe(128 * 112);
+        expect(result.photos[0].isDeleted).toBe(false);
+        expect(result.photos[0].frameId).toBe('1');
+        expect(result.photos[0].comment).toBe('A');
+        expect(result.photos[0].width).toBe(128);
+        expect(result.photos[0].height).toBe(112);
+        expect(result.photos[0].pixels).toBeInstanceOf(Uint8Array);
+        expect(result.photos[0].pixels.length).toBe(128 * 112);
     });
 });

@@ -4,32 +4,32 @@ const TOTAL_PIXELS = WIDTH * HEIGHT;
 
 /**
  * Creates a montage where the top half is from the first photo and the bottom half is from the second photo.
- * @param {Uint8Array} photoData1 The pixel data for the first photo.
- * @param {Uint8Array} photoData2 The pixel data for the second photo.
+ * @param {Uint8Array} pixels1 The pixel data for the first photo.
+ * @param {Uint8Array} pixels2 The pixel data for the second photo.
  * @returns {Uint8Array} The combined pixel data.
  */
-const createHorizontalMontage = (photoData1, photoData2) => {
+const createHorizontalMontage = (pixels1, pixels2) => {
     const montageData = new Uint8Array(TOTAL_PIXELS);
     const halfHeightInPixels = TOTAL_PIXELS / 2;
-    montageData.set(photoData1.subarray(0, halfHeightInPixels));
-    montageData.set(photoData2.subarray(halfHeightInPixels), halfHeightInPixels);
+    montageData.set(pixels1.subarray(0, halfHeightInPixels));
+    montageData.set(pixels2.subarray(halfHeightInPixels), halfHeightInPixels);
     return montageData;
 };
 
 /**
  * Creates a montage where the left half is from the first photo and the right half is from the second photo.
- * @param {Uint8Array} photoData1 The pixel data for the first photo.
- * @param {Uint8Array} photoData2 The pixel data for the second photo.
+ * @param {Uint8Array} pixels1 The pixel data for the first photo.
+ * @param {Uint8Array} pixels2 The pixel data for the second photo.
  * @returns {Uint8Array} The combined pixel data.
  */
-const createVerticalMontage = (photoData1, photoData2) => {
+const createVerticalMontage = (pixels1, pixels2) => {
     const montageData = new Uint8Array(TOTAL_PIXELS);
     const halfWidth = WIDTH / 2;
     for (let y = 0; y < HEIGHT; y++) {
         const rowStartIndex = y * WIDTH;
         const rowEndIndex = rowStartIndex + WIDTH;
-        montageData.set(photoData1.subarray(rowStartIndex, rowStartIndex + halfWidth), rowStartIndex);
-        montageData.set(photoData2.subarray(rowStartIndex + halfWidth, rowEndIndex), rowStartIndex + halfWidth);
+        montageData.set(pixels1.subarray(rowStartIndex, rowStartIndex + halfWidth), rowStartIndex);
+        montageData.set(pixels2.subarray(rowStartIndex + halfWidth, rowEndIndex), rowStartIndex + halfWidth);
     }
     return montageData;
 };
@@ -38,11 +38,11 @@ const createVerticalMontage = (photoData1, photoData2) => {
  * Creates a checkerboard quadrant montage from two photos.
  * Top-Left: Photo 1, Top-Right: Photo 2
  * Bottom-Left: Photo 2, Bottom-Right: Photo 1
- * @param {Uint8Array} photoData1 The pixel data for the first photo.
- * @param {Uint8Array} photoData2 The pixel data for the second photo.
+ * @param {Uint8Array} pixels1 The pixel data for the first photo.
+ * @param {Uint8Array} pixels2 The pixel data for the second photo.
  * @returns {Uint8Array} The combined pixel data.
  */
-const createQuadrantMontage = (photoData1, photoData2) => {
+const createQuadrantMontage = (pixels1, pixels2) => {
     const montageData = new Uint8Array(TOTAL_PIXELS);
     const halfWidth = WIDTH / 2;
     const halfHeight = HEIGHT / 2;
@@ -53,12 +53,12 @@ const createQuadrantMontage = (photoData1, photoData2) => {
 
         if (y < halfHeight) {
             // Top-left from photo1, top-right from photo2
-            montageData.set(photoData1.subarray(rowStartIndex, rowStartIndex + halfWidth), rowStartIndex);
-            montageData.set(photoData2.subarray(rowStartIndex + halfWidth, rowEndIndex), rowStartIndex + halfWidth);
+            montageData.set(pixels1.subarray(rowStartIndex, rowStartIndex + halfWidth), rowStartIndex);
+            montageData.set(pixels2.subarray(rowStartIndex + halfWidth, rowEndIndex), rowStartIndex + halfWidth);
         } else {
             // Bottom-left from photo2, bottom-right from photo1
-            montageData.set(photoData2.subarray(rowStartIndex, rowStartIndex + halfWidth), rowStartIndex);
-            montageData.set(photoData1.subarray(rowStartIndex + halfWidth, rowEndIndex), rowStartIndex + halfWidth);
+            montageData.set(pixels2.subarray(rowStartIndex, rowStartIndex + halfWidth), rowStartIndex);
+            montageData.set(pixels1.subarray(rowStartIndex + halfWidth, rowEndIndex), rowStartIndex + halfWidth);
         }
     }
     return montageData;
@@ -72,7 +72,7 @@ const createQuadrantMontage = (photoData1, photoData2) => {
  * @returns {Uint8Array} The combined pixel data.
  */
 const createFourPhotoQuadrantMontage = (photos) => {
-    const [photoData1, photoData2, photoData3, photoData4] = photos;
+    const [pixels1, pixels2, pixels3, pixels4] = photos;
     const montageData = new Uint8Array(TOTAL_PIXELS);
     const halfWidth = WIDTH / 2;
     const halfHeight = HEIGHT / 2;
@@ -83,12 +83,12 @@ const createFourPhotoQuadrantMontage = (photos) => {
 
         if (y < halfHeight) {
             // Top-left from photo1, top-right from photo2
-            montageData.set(photoData1.subarray(rowStartIndex, rowStartIndex + halfWidth), rowStartIndex);
-            montageData.set(photoData2.subarray(rowStartIndex + halfWidth, rowEndIndex), rowStartIndex + halfWidth);
+            montageData.set(pixels1.subarray(rowStartIndex, rowStartIndex + halfWidth), rowStartIndex);
+            montageData.set(pixels2.subarray(rowStartIndex + halfWidth, rowEndIndex), rowStartIndex + halfWidth);
         } else {
             // Bottom-left from photo3, bottom-right from photo4
-            montageData.set(photoData3.subarray(rowStartIndex, rowStartIndex + halfWidth), rowStartIndex);
-            montageData.set(photoData4.subarray(rowStartIndex + halfWidth, rowEndIndex), rowStartIndex + halfWidth);
+            montageData.set(pixels3.subarray(rowStartIndex, rowStartIndex + halfWidth), rowStartIndex);
+            montageData.set(pixels4.subarray(rowStartIndex + halfWidth, rowEndIndex), rowStartIndex + halfWidth);
         }
     }
     return montageData;
@@ -97,17 +97,17 @@ const createFourPhotoQuadrantMontage = (photos) => {
 /**
  * Creates a montage with a 2/3 horizontal split.
  * The top 80 pixels height is from the first photo, and the bottom rest is from the second photo.
- * @param {Uint8Array} photoData1 The pixel data for the first photo.
- * @param {Uint8Array} photoData2 The pixel data for the second photo.
+ * @param {Uint8Array} pixels1 The pixel data for the first photo.
+ * @param {Uint8Array} pixels2 The pixel data for the second photo.
  * @returns {Uint8Array} The combined pixel data.
  */
-const createHorizontalTwoThirdsMontage = (photoData1, photoData2) => {
+const createHorizontalTwoThirdsMontage = (pixels1, pixels2) => {
     const montageData = new Uint8Array(TOTAL_PIXELS);
     const topHeight = 80;
     const splitPointInPixels = topHeight * WIDTH;
 
-    montageData.set(photoData1.subarray(0, splitPointInPixels));
-    montageData.set(photoData2.subarray(splitPointInPixels), splitPointInPixels);
+    montageData.set(pixels1.subarray(0, splitPointInPixels));
+    montageData.set(pixels2.subarray(splitPointInPixels), splitPointInPixels);
     return montageData;
 };
 
@@ -120,7 +120,7 @@ const createHorizontalTwoThirdsMontage = (photoData1, photoData2) => {
  * @returns {Uint8Array} The combined pixel data.
  */
 const createHorizontalBarsMontage = (photos) => {
-    const [photoData1, photoData2, photoData3] = photos;
+    const [pixels1, pixels2, pixels3] = photos;
     const montageData = new Uint8Array(TOTAL_PIXELS);
 
     const topHeight = 32;
@@ -131,9 +131,9 @@ const createHorizontalBarsMontage = (photos) => {
     const middleEndPixel = (32 + middleHeight) * WIDTH;
     const bottomStartPixel = (HEIGHT - topHeight) * WIDTH;
 
-    montageData.set(photoData2.subarray(0, topPixels));
-    montageData.set(photoData1.subarray(middleStartPixel, middleEndPixel), topPixels);
-    montageData.set(photoData3.subarray(bottomStartPixel), topPixels + (middleEndPixel - middleStartPixel));
+    montageData.set(pixels2.subarray(0, topPixels));
+    montageData.set(pixels1.subarray(middleStartPixel, middleEndPixel), topPixels);
+    montageData.set(pixels3.subarray(bottomStartPixel), topPixels + (middleEndPixel - middleStartPixel));
 
     return montageData;
 };
@@ -141,12 +141,12 @@ const createHorizontalBarsMontage = (photos) => {
 /**
  * Creates a montage where the first photo is placed in the center of the second photo.
  * The inner image is 80x64 pixels.
- * @param {Uint8Array} photoData1 The inner photo pixel data.
- * @param {Uint8Array} photoData2 The outer/border photo pixel data.
+ * @param {Uint8Array} pixels1 The inner photo pixel data.
+ * @param {Uint8Array} pixels2 The outer/border photo pixel data.
  * @returns {Uint8Array} The combined pixel data.
  */
-const createBorderMontage = (photoData1, photoData2) => {
-    const montageData = new Uint8Array(photoData2); // Start with the border image
+const createBorderMontage = (pixels1, pixels2) => {
+    const montageData = new Uint8Array(pixels2); // Start with the border image
     const innerWidth = 80;
     const innerHeight = 64;
 
@@ -158,7 +158,7 @@ const createBorderMontage = (photoData1, photoData2) => {
         const sourceRowStartIndex = (offsetY + y) * WIDTH + offsetX;
         const sourceRowEndIndex = sourceRowStartIndex + innerWidth;
         const destRowStartIndex = (offsetY + y) * WIDTH + offsetX;
-        montageData.set(photoData1.subarray(sourceRowStartIndex, sourceRowEndIndex), destRowStartIndex);
+        montageData.set(pixels1.subarray(sourceRowStartIndex, sourceRowEndIndex), destRowStartIndex);
     }
     return montageData;
 };
@@ -204,16 +204,16 @@ const createMontage = (photos, montageType = 'horizontal') => {
             if (photos.length < 2 || !photos[0] || !photos[1]) {
                 return new Uint8Array(0);
             }
-            const photoData1 = toUint8(photos[0]);
-            const photoData2 = toUint8(photos[1]);
+            const pixels1 = toUint8(photos[0]);
+            const pixels2 = toUint8(photos[1]);
 
-            if (montageType === 'vertical') return createVerticalMontage(photoData1, photoData2);
-            if (montageType === 'quadrant') return createQuadrantMontage(photoData1, photoData2);
-            if (montageType === 'border') return createBorderMontage(photoData1, photoData2);
+            if (montageType === 'vertical') return createVerticalMontage(pixels1, pixels2);
+            if (montageType === 'quadrant') return createQuadrantMontage(pixels1, pixels2);
+            if (montageType === 'border') return createBorderMontage(pixels1, pixels2);
             if (montageType === 'horizontal-2/3') {
-                return createHorizontalTwoThirdsMontage(photoData1, photoData2);
+                return createHorizontalTwoThirdsMontage(pixels1, pixels2);
             }
-            return createHorizontalMontage(photoData1, photoData2); // Default to horizontal
+            return createHorizontalMontage(pixels1, pixels2); // Default to horizontal
         }
     }
 };

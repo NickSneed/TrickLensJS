@@ -12,16 +12,16 @@ async function main() {
 
         console.log(`Username: ${parsedData.username}`);
         console.log(`Gender: ${parsedData.gender}`);
-        console.log(`Found ${parsedData.images.length} images.`);
+        console.log(`Found ${parsedData.photos.length} photos.`);
 
         // Accessing image data (this is lazy-loaded)
-        const firstImage = parsedData.images[0];
-        if (!firstImage.isDeleted) {
-            console.log(`First image comment: ${firstImage.comment}`);
-            console.log(`First image frame ID: ${firstImage.frameId}`);
-            // The `photoData` getter will decode the image on first access.
-            const pixelData = firstImage.photoData;
-            console.log(`First image has ${pixelData.length} pixels.`);
+        const firstPhoto = parsedData.photos[0];
+        if (!firstPhoto.isDeleted) {
+            console.log(`First photo comment: ${firstPhoto.comment}`);
+            console.log(`First photo frame ID: ${firstPhoto.frameId}`);
+            // The `pixels` getter will decode the image on first access.
+            const pixelData = firstPhoto.pixels;
+            console.log(`First photo has ${pixelData.length} pixels.`);
         }
 
         console.log(parsedData);

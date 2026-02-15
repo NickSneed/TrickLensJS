@@ -6,14 +6,14 @@ const HEIGHT = 112;
 const TOTAL_PIXELS = WIDTH * HEIGHT;
 
 describe('createMontage', () => {
-    let photoData1, photoData2, photoData3, photoData4;
+    let pixels1, pixels2, pixels3, pixels4;
 
     beforeEach(() => {
         // Create mock photo data with distinct values for easy testing
-        photoData1 = new Uint8Array(TOTAL_PIXELS).fill(1);
-        photoData2 = new Uint8Array(TOTAL_PIXELS).fill(2);
-        photoData3 = new Uint8Array(TOTAL_PIXELS).fill(3);
-        photoData4 = new Uint8Array(TOTAL_PIXELS).fill(0);
+        pixels1 = new Uint8Array(TOTAL_PIXELS).fill(1);
+        pixels2 = new Uint8Array(TOTAL_PIXELS).fill(2);
+        pixels3 = new Uint8Array(TOTAL_PIXELS).fill(3);
+        pixels4 = new Uint8Array(TOTAL_PIXELS).fill(0);
     });
 
     describe('Edge Cases', () => {
@@ -23,20 +23,20 @@ describe('createMontage', () => {
         });
 
         it('should return an empty array if not enough photos are provided for the split type', () => {
-            expect(createMontage([photoData1], 'horizontal')).toEqual(new Uint8Array(0));
-            expect(createMontage([photoData1, photoData2], 'four-quadrant')).toEqual(new Uint8Array(0));
-            expect(createMontage([photoData1, photoData2], 'horizontal-bars')).toEqual(new Uint8Array(0));
+            expect(createMontage([pixels1], 'horizontal')).toEqual(new Uint8Array(0));
+            expect(createMontage([pixels1, pixels2], 'four-quadrant')).toEqual(new Uint8Array(0));
+            expect(createMontage([pixels1, pixels2], 'horizontal-bars')).toEqual(new Uint8Array(0));
         });
 
         it('should return an empty array if any required photo is null or undefined', () => {
-            expect(createMontage([photoData1, null], 'vertical')).toEqual(new Uint8Array(0));
-            expect(createMontage([photoData1, photoData2, undefined], 'horizontal-bars')).toEqual(new Uint8Array(0));
+            expect(createMontage([pixels1, null], 'vertical')).toEqual(new Uint8Array(0));
+            expect(createMontage([pixels1, pixels2, undefined], 'horizontal-bars')).toEqual(new Uint8Array(0));
         });
     });
 
     describe('horizontal montage', () => {
         it('should combine two photos horizontally', () => {
-            const result = createMontage([photoData1, photoData2], 'horizontal');
+            const result = createMontage([pixels1, pixels2], 'horizontal');
             const halfHeight = HEIGHT / 2;
 
             for (let y = 0; y < HEIGHT; y++) {
@@ -51,7 +51,7 @@ describe('createMontage', () => {
 
     describe('vertical montage', () => {
         it('should combine two photos vertically', () => {
-            const result = createMontage([photoData1, photoData2], 'vertical');
+            const result = createMontage([pixels1, pixels2], 'vertical');
             const halfWidth = WIDTH / 2;
 
             for (let y = 0; y < HEIGHT; y++) {
@@ -66,7 +66,7 @@ describe('createMontage', () => {
 
     describe('quadrant montage (2 photos)', () => {
         it('should combine two photos in a quadrant pattern', () => {
-            const result = createMontage([photoData1, photoData2], 'quadrant');
+            const result = createMontage([pixels1, pixels2], 'quadrant');
             const halfWidth = WIDTH / 2;
             const halfHeight = HEIGHT / 2;
 
@@ -88,7 +88,7 @@ describe('createMontage', () => {
 
     describe('four-quadrant montage', () => {
         it('should combine four photos in a quadrant pattern', () => {
-            const photos = [photoData1, photoData2, photoData3, photoData4];
+            const photos = [pixels1, pixels2, pixels3, pixels4];
             const result = createMontage(photos, 'four-quadrant');
             const halfWidth = WIDTH / 2;
             const halfHeight = HEIGHT / 2;
@@ -111,7 +111,7 @@ describe('createMontage', () => {
 
     describe('horizontal-2/3 montage', () => {
         it('should combine two photos with a 2/3 horizontal split', () => {
-            const result = createMontage([photoData1, photoData2], 'horizontal-2/3');
+            const result = createMontage([pixels1, pixels2], 'horizontal-2/3');
             const topHeight = 80;
 
             for (let y = 0; y < HEIGHT; y++) {
@@ -128,9 +128,9 @@ describe('createMontage', () => {
         it('should combine three photos in horizontal bars', () => {
             // For this test, we need to simulate the source data more accurately.
             // The function takes specific slices from the source images.
-            // photoData1 (middle): slice from y=32 to y=80
-            // photoData2 (top): slice from y=0 to y=32
-            // photoData3 (bottom): slice from y=80 to y=112
+            // pixels1 (middle): slice from y=32 to y=80
+            // pixels2 (top): slice from y=0 to y=32
+            // pixels3 (bottom): slice from y=80 to y=112
 
             // Let's create source images with a horizontal line to track the slices
             const p1 = new Uint8Array(TOTAL_PIXELS).fill(0);
@@ -163,24 +163,24 @@ describe('createMontage', () => {
 
     describe('border montage', () => {
         it('should place one photo inside another as a border', () => {
-            // photoData1 is the inner image (all 1s)
-            // photoData2 is the outer/border image (all 2s)
+            // pixels1 is the inner image (all 1s)
+            // pixels2 is the outer/border image (all 2s)
 
-            // To make it more robust, let's modify photoData1 to have a pattern
+            // To make it more robust, let's modify pixels1 to have a pattern
             // that we can check for, to ensure the correct part is copied.
             const innerWidth = 80;
             const innerHeight = 64;
             const offsetX = (WIDTH - innerWidth) / 2; // 24
             const offsetY = (HEIGHT - innerHeight) / 2; // 24
 
-            // Put a unique value (5) in the center of the region that should be copied from photoData1
+            // Put a unique value (5) in the center of the region that should be copied from pixels1
             const sourceY = offsetY + innerHeight / 2;
             const sourceX = offsetX + innerWidth / 2;
-            photoData1[sourceY * WIDTH + sourceX] = 5;
+            pixels1[sourceY * WIDTH + sourceX] = 5;
 
-            const result = createMontage([photoData1, photoData2], 'border');
+            const result = createMontage([pixels1, pixels2], 'border');
 
-            // Check the corners of the result, they should be from the border image (photoData2)
+            // Check the corners of the result, they should be from the border image (pixels2)
             expect(result[0]).toBe(2); // Top-left
             expect(result[WIDTH - 1]).toBe(2); // Top-right
             expect(result[(HEIGHT - 1) * WIDTH]).toBe(2); // Bottom-left

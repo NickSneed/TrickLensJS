@@ -29,17 +29,17 @@ The returned object has the following structure:
 {
   username: string,
   gender: 'male' | 'female',
-  images: [
+  photos: [
     {
       width: number,      // Image width (128)
       height: number,     // Image height (112)
       comment: string,    // Photo comment
       frameId: string,    // The ID of the frame used (1-based)
-      photoIndex: number, // Index of the photo (deleted photos are -1)
+      index: number,      // Index of the photo (deleted photos are -1)
       isDeleted: boolean, // True if the photo slot is marked as deleted
-      photoData: number[] // A lazy-loaded array of palette indices (0-3) for each pixel
+      pixels: number[]    // A lazy-loaded array of palette indices (0-3) for each pixel
     },
-    ... // (30 images in total)
+    ... // (30 photos in total)
   ]
 }
 ```
@@ -50,22 +50,22 @@ https://github.com/raphnet/gbcam2png
 
 https://github.com/Raphael-Boichot/Inject-pictures-in-your-Game-Boy-Camera-saves
 
-### `applyPalette(photoData, palette, paletteOrder)`
+### `applyPalette(pixels, palette, paletteOrder)`
 
 Converts raw pixel data into an RGBA array using a specific palette.
 
-- **`photoData`**: `number[]` - The array of palette indices (0-3) from an image.
+- **`pixels`**: `number[]` - The array of palette indices (0-3) from an image.
 - **`palette`**: `object` - A palette object containing a `colors` array of 4 RGB objects (e.g., `{ name: 'Super Game Boy 1A', colors: [{ r: 255, g: 232, b: 207 }, ...] }`).
 - **`paletteOrder`**: `string` (optional) - Reorders the palette. Options: `'invert'`, `'pa'`, `'pb'`, `'pc'`, `'pd'`.
 - **Returns**: `Uint8ClampedArray` - The RGBA pixel data (4 bytes per pixel).
 
 !Game Boy Camera Palettes
 
-### `applyEffect(photoData, effect)`
+### `applyEffect(pixels, effect)`
 
 Applies a visual effect to the raw pixel data.
 
-- **`photoData`**: `number[]` - The array of palette indices.
+- **`pixels`**: `number[]` - The array of palette indices.
 - **`effect`**: `string` - The effect to apply.
     - `'invert'`
     - `'mirror-rtl'`, `'mirror-ltr'`, `'mirror-btt'`, `'mirror-ttb'`

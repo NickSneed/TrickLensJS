@@ -31,13 +31,13 @@ const reorderPalette = (palette, effect) => {
     return orderedMainPalette;
 };
 
-const applyPalette = (photoData, palette, paletteOrder) => {
-    const imgData = new Uint8ClampedArray(photoData.length * 4);
+const applyPalette = (pixels, palette, paletteOrder) => {
+    const imgData = new Uint8ClampedArray(pixels.length * 4);
 
     const orderedPalette = reorderPalette(palette, paletteOrder);
 
-    for (let i = 0; i < photoData.length; i++) {
-        const val = photoData[i];
+    for (let i = 0; i < pixels.length; i++) {
+        const val = pixels[i];
         const color = orderedPalette[val];
         const pixelIndex = i * 4;
         imgData[pixelIndex + 0] = color.r;

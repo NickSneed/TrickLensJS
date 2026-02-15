@@ -30,16 +30,16 @@ const CONSTANTS = {
 /**
  * Checks if the provided photo data is empty or consists entirely of zero-value pixels.
  * This is used to determine if a photo slot in the save file contains actual image data.
- * @param {Uint8Array | number[]} photoData The pixel data for a photo, as an array of palette indices.
+ * @param {Uint8Array | number[]} pixels The pixel data for a photo, as an array of palette indices.
  * @returns {boolean} True if the photo data is considered empty, false otherwise.
  */
-const isPhotoDataEmpty = (photoData) => {
-    if (!photoData || photoData.length === 0) {
+const isPixelsEmpty = (pixels) => {
+    if (!pixels || pixels.length === 0) {
         return true; // An empty array is considered empty.
     }
     // Check if all pixels are the same as the first pixel.
-    const firstPixel = photoData[0];
-    return photoData.every((pixel) => pixel === firstPixel);
+    const firstPixel = pixels[0];
+    return pixels.every((pixel) => pixel === firstPixel);
 };
 
 /**
@@ -47,7 +47,7 @@ const isPhotoDataEmpty = (photoData) => {
  * It reads the 2bpp tile data and maps it to palette indices (0-3).
  * @param {Uint8Array} saveData The raw save data for the Game Boy Camera.
  * @param {number} photoIndex The index of the photo to extract (0-29).
- * @returns {{width: number, height: number, photoData: Uint8Array}} An object containing the image dimensions and a flat array of palette indices.
+ * @returns {{width: number, height: number, pixels: Uint8Array}} An object containing the image dimensions and a flat array of palette indices.
  */
 export const getImgData = (saveData, photoIndex) => {
     const photoOffset = OFFSETS.PHOTO_DATA_START + photoIndex * SIZES.PHOTO_BLOCK;
@@ -84,7 +84,7 @@ export const getImgData = (saveData, photoIndex) => {
             }
         }
     }
-    return { width, height, photoData: decodedData };
+    return { width, height, pixels: decodedData };
 };
 
 /**
@@ -189,44 +189,44 @@ export const getFrameId = (saveData, photoIndex) => {
 /**
  * Converts save data to a JS object.
  * This function parses metadata for all photos, but image pixel data is loaded lazily
- * upon first access to the `photoData` property of an image object.
+ * upon first access to the `pixels` property of an image object.
  * @param {Uint8Array} saveData The raw save data.
  * @returns {object} An object containing all of the save data.
  */
 const parseSave = (saveData) => {
-    const images = [];
+    const photos = [];
     const array8Bit = new Uint8Array(saveData);
 
     for (let i = 0; i < CONSTANTS.NUM_PHOTOS; i++) {
         // Use a closure to capture the photo index `i`
-        const photoIndex = i;
-        let decodedPhotoData = null; // Cache for the decoded data
+        const slotIndex = i;
+        let decodedPixels = null; // Cache for the decoded data
 
-        let image = {
+        let photo = {
             width: SIZES.IMAGE_WIDTH,
             height: SIZES.IMAGE_HEIGHT,
-            comment: getComment(array8Bit, photoIndex),
-            frameId: getFrameId(array8Bit, photoIndex),
-            photoIndex: getPhotoIndex(array8Bit, photoIndex),
-            isDeleted: getIsDeleted(array8Bit, photoIndex),
-            get photoData() {
-                if (decodedPhotoData === null) {
+            comment: getComment(array8Bit, slotIndex),
+            frameId: getFrameId(array8Bit, slotIndex),
+            index: getPhotoIndex(array8Bit, slotIndex),
+            isDeleted: getIsDeleted(array8Bit, slotIndex),
+            get pixels() {
+                if (decodedPixels === null) {
                     // Decode image data on first access and cache it.
-                    decodedPhotoData = getImgData(array8Bit, photoIndex).photoData;
+                    decodedPixels = getImgData(array8Bit, slotIndex).pixels;
                 }
-                return decodedPhotoData;
+                return decodedPixels;
             }
         };
 
-        if (!isPhotoDataEmpty(image.photoData)) {
-            images.push(image);
+        if (!isPixelsEmpty(photo.pixels)) {
+            photos.push(photo);
         }
     }
 
     return {
         username: getUsername(array8Bit),
         gender: getGender(array8Bit),
-        images: images
+        photos: photos
     };
 };
 

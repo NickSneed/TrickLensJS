@@ -27,11 +27,11 @@ vi.mock('../assets/palettes.js', () => ({
 }));
 
 describe('applyPalette', () => {
-    it('should correctly map photoData indices to RGBA pixel values for a given palette', () => {
-        const photoData = [0, 1, 2, 3, 3, 2, 1, 0];
+    it('should correctly map pixels indices to RGBA pixel values for a given palette', () => {
+        const pixels = [0, 1, 2, 3, 3, 2, 1, 0];
         const palette = palettes['test-palette'];
 
-        const result = applyPalette(photoData, palette, 'none');
+        const result = applyPalette(pixels, palette, 'none');
 
         const expectedPixels = new Uint8ClampedArray([
             // 0 -> black
@@ -56,10 +56,10 @@ describe('applyPalette', () => {
     });
 
     it('should work with a different palette', () => {
-        const photoData = [0, 1, 2, 3];
+        const pixels = [0, 1, 2, 3];
         const palette = palettes['another-palette'];
 
-        const result = applyPalette(photoData, palette, 'none');
+        const result = applyPalette(pixels, palette, 'none');
 
         const expectedPixels = new Uint8ClampedArray([
             // 0 -> red
@@ -75,25 +75,25 @@ describe('applyPalette', () => {
         expect(result).toEqual(expectedPixels);
     });
 
-    it('should return an empty array for empty photoData', () => {
-        const photoData = [];
+    it('should return an empty array for empty pixels', () => {
+        const pixels = [];
         const palette = palettes['test-palette'];
 
-        const result = applyPalette(photoData, palette, 'none');
+        const result = applyPalette(pixels, palette, 'none');
 
         expect(result).toEqual(new Uint8ClampedArray([]));
     });
 
     describe('reorderPalette', () => {
         it('should invert the palette order', () => {
-            const photoData = [0, 1, 2, 3];
+            const pixels = [0, 1, 2, 3];
             const palette = palettes['test-palette'];
 
             // The original data [0, 1, 2, 3] should be mapped to the inverted palette.
             // Original palette: [black, d-grey, l-grey, white]
             // Inverted palette: [white, l-grey, d-grey, black]
             // So, 0 -> white, 1 -> l-grey, 2 -> d-grey, 3 -> black
-            const result = applyPalette(photoData, palette, 'invert');
+            const result = applyPalette(pixels, palette, 'invert');
 
             const expectedPixels = new Uint8ClampedArray([
                 // 0
@@ -110,14 +110,14 @@ describe('applyPalette', () => {
         });
 
         it('should invert the palette order with i', () => {
-            const photoData = [0, 1, 2, 3];
+            const pixels = [0, 1, 2, 3];
             const palette = palettes['test-palette'];
 
             // The original data [0, 1, 2, 3] should be mapped to the inverted palette.
             // Original palette: [black, d-grey, l-grey, white]
             // Inverted palette: [white, l-grey, d-grey, black]
             // So, 0 -> white, 1 -> l-grey, 2 -> d-grey, 3 -> black
-            const result = applyPalette(photoData, palette, 'i');
+            const result = applyPalette(pixels, palette, 'i');
 
             const expectedPixels = new Uint8ClampedArray([
                 // 0
@@ -134,14 +134,14 @@ describe('applyPalette', () => {
         });
 
         it('should reorder the palette for effect "pa"', () => {
-            const photoData = [0, 1, 2, 3];
+            const pixels = [0, 1, 2, 3];
             const palette = palettes['test-palette'];
 
             // The original data [0, 1, 2, 3] should be mapped to the 'pa' reordered palette.
             // Original palette: [black(0), d-grey(1), l-grey(2), white(3)]
             // 'pa' order from code: [2, 3, 0, 1] -> [l-grey, white, black, d-grey]
             // So, 0->l-grey, 1->white, 2->black, 3->d-grey
-            const result = applyPalette(photoData, palette, 'pa');
+            const result = applyPalette(pixels, palette, 'pa');
 
             const expectedPixels = new Uint8ClampedArray([
                 // 0
@@ -158,13 +158,13 @@ describe('applyPalette', () => {
         });
 
         it('should reorder the palette for effect "pb"', () => {
-            const photoData = [0, 1, 2, 3];
+            const pixels = [0, 1, 2, 3];
             const palette = palettes['test-palette'];
 
             // Original palette: [black(0), d-grey(1), l-grey(2), white(3)]
             // 'pb' order from code: [3, 1, 2, 0] -> [white, d-grey, l-grey, black]
             // So, 0->white, 1->d-grey, 2->l-grey, 3->black
-            const result = applyPalette(photoData, palette, 'pb');
+            const result = applyPalette(pixels, palette, 'pb');
 
             const expectedPixels = new Uint8ClampedArray([
                 // 0
@@ -181,13 +181,13 @@ describe('applyPalette', () => {
         });
 
         it('should reorder the palette for effect "pc"', () => {
-            const photoData = [0, 1, 2, 3];
+            const pixels = [0, 1, 2, 3];
             const palette = palettes['test-palette'];
 
             // Original palette: [black(0), d-grey(1), l-grey(2), white(3)]
             // 'pc' order from code: [1, 0, 3, 2] -> [d-grey, black, white, l-grey]
             // So, 0->d-grey, 1->black, 2->white, 3->l-grey
-            const result = applyPalette(photoData, palette, 'pc');
+            const result = applyPalette(pixels, palette, 'pc');
 
             const expectedPixels = new Uint8ClampedArray([
                 // 0
@@ -204,13 +204,13 @@ describe('applyPalette', () => {
         });
 
         it('should reorder the palette for effect "pd"', () => {
-            const photoData = [0, 1, 2, 3];
+            const pixels = [0, 1, 2, 3];
             const palette = palettes['test-palette'];
 
             // Original palette: [black(0), d-grey(1), l-grey(2), white(3)]
             // 'pd' order from code: [0, 2, 1, 3] -> [black, l-grey, d-grey, white]
             // So, 0->black, 1->l-grey, 2->d-grey, 3->white
-            const result = applyPalette(photoData, palette, 'pd');
+            const result = applyPalette(pixels, palette, 'pd');
 
             const expectedPixels = new Uint8ClampedArray([
                 // 0
