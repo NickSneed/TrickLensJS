@@ -207,8 +207,7 @@ const parseSave = (saveData) => {
             height: SIZES.IMAGE_HEIGHT,
             comment: getComment(array8Bit, slotIndex),
             frameId: getFrameId(array8Bit, slotIndex),
-            index: getPhotoIndex(array8Bit, slotIndex),
-            index2: getPhotoIndex(array8Bit, slotIndex),
+            slot: getPhotoIndex(array8Bit, slotIndex),
             isDeleted: getIsDeleted(array8Bit, slotIndex),
             get pixels() {
                 if (decodedPixels === null) {
