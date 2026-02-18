@@ -147,7 +147,7 @@ const tile = (pixels) => {
 /**
  * Flips the photo along the specified axis.
  * @param {number[]} pixels The pixel data for a photo, as an array of palette indices.
- * @param {'v' | 'h'} direction The direction of the flip. 'v' (vertical), 'h' (horizontal).
+ * @param {'v' | 'h' | 'vh'} direction The direction of the flip. 'v' (vertical), 'h' (horizontal), 'vh' (both).
  * @returns {number[]} A new array with the flip effect applied.
  */
 const flip = (pixels, direction) => {
@@ -162,12 +162,21 @@ const flip = (pixels, direction) => {
                 flippedData[y * width + x] = pixels[sourceIndex];
             }
         }
-    } else {
-        // 'v'
+    } else if (direction === 'v') {
         for (let y = 0; y < height; y++) {
             const sourceY = height - 1 - y;
             for (let x = 0; x < width; x++) {
                 const sourceIndex = sourceY * width + x;
+                flippedData[y * width + x] = pixels[sourceIndex];
+            }
+        }
+    } else {
+        // 'vh'
+        for (let y = 0; y < height; y++) {
+            const sourceY = height - 1 - y;
+            for (let x = 0; x < width; x++) {
+                const sourceX = width - 1 - x;
+                const sourceIndex = sourceY * width + sourceX;
                 flippedData[y * width + x] = pixels[sourceIndex];
             }
         }
@@ -179,7 +188,7 @@ const flip = (pixels, direction) => {
 /**
  * Applies a specified visual effect to the photo data.
  * @param {number[]} pixels The pixel data for a photo, as an array of palette indices.
- * @param {'invert' | 'mirror-rtl' | 'mirror-ltr' | 'mirror-btt' | 'mirror-ttb' | 'zoom' | 'zoom-v' | 'zoom-h' | 'tile' | 'flip-v' | 'flip-h'} effect The name of the effect to apply.
+ * @param {'invert' | 'mirror-rtl' | 'mirror-ltr' | 'mirror-btt' | 'mirror-ttb' | 'zoom' | 'zoom-v' | 'zoom-h' | 'tile' | 'flip-v' | 'flip-h' | 'flip-vh'} effect The name of the effect to apply.
  * @returns {number[]} A new array with the effect applied. Returns the original data if the effect is not recognized.
  */
 const applyEffect = (pixels, effect) => {
@@ -205,6 +214,8 @@ const applyEffect = (pixels, effect) => {
         return flip(pixels, 'v');
     } else if (effect === 'flip-h') {
         return flip(pixels, 'h');
+    } else if (effect === 'flip-vh') {
+        return flip(pixels, 'vh');
     }
     return pixels;
 };
