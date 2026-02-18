@@ -416,6 +416,15 @@ const palettes = {
             { r: 15, g: 56, b: 48 }
         ]
     },
+    vb: {
+        name: 'Virtual Boy',
+        colors: [
+            { r: 250, g: 17, b: 0 },
+            { r: 191, g: 57, b: 48 },
+            { r: 128, g: 68, b: 64 },
+            { r: 0, g: 0, b: 0 }
+        ]
+    },
     bw1: {
         name: 'Black and White 1',
         colors: [
@@ -450,60 +459,6 @@ const palettes = {
             { r: 222, g: 195, b: 149 },
             { r: 178, g: 142, b: 110 },
             { r: 104, g: 60, b: 52 }
-        ]
-    },
-    yellow: {
-        name: 'Yellow',
-        colors: [
-            { r: 255, g: 238, b: 0 },
-            { r: 191, g: 182, b: 48 },
-            { r: 128, g: 123, b: 64 },
-            { r: 64, g: 63, b: 48 }
-        ]
-    },
-    blue: {
-        name: 'Blue',
-        colors: [
-            { r: 0, g: 118, b: 250 },
-            { r: 47, g: 112, b: 186 },
-            { r: 61, g: 90, b: 122 },
-            { r: 44, g: 51, b: 59 }
-        ]
-    },
-    red: {
-        name: 'Red',
-        colors: [
-            { r: 250, g: 17, b: 0 },
-            { r: 191, g: 57, b: 48 },
-            { r: 128, g: 68, b: 64 },
-            { r: 0, g: 0, b: 0 }
-        ]
-    },
-    green: {
-        name: 'Green',
-        colors: [
-            { r: 0, g: 249, b: 29 },
-            { r: 47, g: 186, b: 63 },
-            { r: 61, g: 122, b: 68 },
-            { r: 44, g: 59, b: 46 }
-        ]
-    },
-    pink: {
-        name: 'Pink',
-        colors: [
-            { r: 250, g: 0, b: 241 },
-            { r: 186, g: 47, b: 181 },
-            { r: 122, g: 61, b: 120 },
-            { r: 59, g: 44, b: 58 }
-        ]
-    },
-    orange: {
-        name: 'Orange',
-        colors: [
-            { r: 250, g: 160, b: 0 },
-            { r: 186, g: 135, b: 47 },
-            { r: 122, g: 100, b: 61 },
-            { r: 59, g: 53, b: 44 }
         ]
     },
     gbcm1: {
