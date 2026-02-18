@@ -419,9 +419,9 @@ const palettes = {
     vb: {
         name: 'Virtual Boy',
         colors: [
-            { r: 230, g: 0, b: 0 },
-            { r: 136, g: 0, b: 0 },
-            { r: 68, g: 0, b: 0 },
+            { r: 255, g: 0, b: 0 },
+            { r: 170, g: 0, b: 0 },
+            { r: 85, g: 0, b: 0 },
             { r: 0, g: 0, b: 0 }
         ]
     },
