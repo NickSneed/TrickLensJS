@@ -12,7 +12,8 @@
         "prepare": "husky install",
         "test": "eslint src/ && vitest run",
         "test:watch": "vitest",
-        "test:coverage": "vitest run --coverage"
+        "test:coverage": "vitest run --coverage",
+        "example": "cd example && node index.js"
     },
     "keywords": [
         "game boy",
